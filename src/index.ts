@@ -1,7 +1,7 @@
 import express from 'express'
 import tasksRouter from './routes/tasks'
-
-const PORT = 3001
+import connectDB from './db/connect'
+import 'dotenv/config'
 
 const app = express()
 
@@ -20,6 +20,11 @@ app.use('/api/v1/tasks', tasksRouter)
 // app.patch('api/v1/tasks')  - update task
 // app.delete('api/v1/tasks') - delete task
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+const PORT = 3001
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+
+const db = process.env.DB_CONN_STRING ?? null
+if (db !== null) {
+  connectDB({ db })
+}
