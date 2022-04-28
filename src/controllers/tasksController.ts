@@ -1,8 +1,16 @@
 import { Request, Response } from 'express'
 import Task, { ITask } from '../models/Task'
 
-export const getAllTasks = (_req: Request, res: Response): void => {
-  res.send('get all tasks')
+export const getAllTasks = async (
+  _req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const tasks = await Task.find({})
+    res.status(201).json({ tasks })
+  } catch (error: any) {
+    res.status(500).json({ msg: error })
+  }
 }
 
 export const getTask = (_req: Request, res: Response): void => {
