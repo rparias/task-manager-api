@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import Task, { ITask } from '../models/Task'
 
 export const getAllTasks = (_req: Request, res: Response): void => {
   res.send('get all tasks')
@@ -8,8 +9,12 @@ export const getTask = (_req: Request, res: Response): void => {
   res.send('get single task')
 }
 
-export const createTask = (_req: Request, res: Response): void => {
-  res.send('create task')
+export const createTask = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const task: ITask = await Task.create(req.body)
+  res.status(201).json({ task })
 }
 
 export const updateTask = (_req: Request, res: Response): void => {

@@ -5,6 +5,7 @@ export interface ITask extends Document {
   completed: boolean
 }
 
+// only the properties defined here are going to be stored in the DB
 const TaskSchema: Schema = new Schema({
   name: { type: String, required: true },
   completed: { type: Boolean, required: true },
