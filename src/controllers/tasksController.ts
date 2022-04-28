@@ -13,8 +13,18 @@ export const getAllTasks = async (
   }
 }
 
-export const getTask = (_req: Request, res: Response): void => {
-  res.send('get single task')
+export const getTask = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id: taskID } = req.params
+    const task = await Task.findOne({ _id: taskID })
+    if (task == null) {
+      res.status(404).json({ msg: `No task with id: ${taskID}` })
+    } else {
+      res.status(201).json({ task })
+    }
+  } catch (error: any) {
+    res.status(500).json({ msg: error })
+  }
 }
 
 export const createTask = async (
