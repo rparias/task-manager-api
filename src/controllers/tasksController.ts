@@ -13,8 +13,12 @@ export const createTask = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const task: ITask = await Task.create(req.body)
-  res.status(201).json({ task })
+  try {
+    const task: ITask = await Task.create(req.body)
+    res.status(201).json({ task })
+  } catch (error: any) {
+    res.status(500).json({ msg: error })
+  }
 }
 
 export const updateTask = (_req: Request, res: Response): void => {
