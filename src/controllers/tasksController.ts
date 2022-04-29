@@ -43,6 +43,18 @@ export const updateTask = (_req: Request, res: Response): void => {
   res.send('update task')
 }
 
-export const deleteTask = (_req: Request, res: Response): void => {
-  res.send('delete task')
+export const deleteTask = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { id: taskId } = req.params
+    const task = await Task.findOneAndDelete({ _id: taskId })
+    if (task == null) {
+      res.status(404).json({ msg: `No task with id: ${taskId}` })
+    }
+    res.status(200).json({ task })
+  } catch (error) {
+    res.status(500).json({ msg: error })
+  }
 }
